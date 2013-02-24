@@ -1,0 +1,20 @@
+//Credits to Hat  
+
+private static boolean hoverMenuOption(Entity target, String action, String option) {
+		if (!target.contains(Mouse.getLocation())) {
+			if (!target.hover())
+				return false;
+		}
+		if (Mouse.click(false)) {
+			final Timer t = new Timer(300);
+			while (t.isRunning() && !Menu.isOpen()) {
+				Task.sleep(10);
+			}
+			if (Menu.isOpen() && Menu.contains(action, option)) {
+				final int xOff = Random.nextInt(4, Menu.getItems()[Menu.getIndex(action, option)].length() * 4);
+				final int yOff = 21 + 16 * Menu.getIndex(action, option) + Random.nextInt(3, 12);
+				return Mouse.move(Menu.getLocation().x + xOff, Menu.getLocation().y + yOff, 2, 2);
+			}
+		}
+		return false;
+	}
