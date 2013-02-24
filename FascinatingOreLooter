@@ -1,0 +1,282 @@
+package defaultPackage;
+
+import java.util.EnumSet;
+
+import org.powerbot.core.event.events.MessageEvent;
+import org.powerbot.core.event.listeners.MessageListener;
+import org.powerbot.core.script.ActiveScript;
+import org.powerbot.core.script.job.Task;
+import org.powerbot.core.script.job.state.Node;
+import org.powerbot.game.api.Manifest;
+import org.powerbot.game.api.methods.Walking;
+import org.powerbot.game.api.methods.input.Mouse;
+import org.powerbot.game.api.methods.interactive.Players;
+import org.powerbot.game.api.methods.node.GroundItems;
+import org.powerbot.game.api.methods.node.SceneEntities;
+import org.powerbot.game.api.methods.tab.Inventory;
+import org.powerbot.game.api.methods.widget.Camera;
+import org.powerbot.game.api.wrappers.Area;
+import org.powerbot.game.api.wrappers.Tile;
+import org.powerbot.game.api.wrappers.map.Path;
+import org.powerbot.game.api.wrappers.node.GroundItem;
+import org.powerbot.game.api.wrappers.node.SceneObject;
+
+@Manifest(authors = { "Fascination" }, name = "Fascinating Ore Looter", description = "Loots Coal ores at LRC", version = 0.1 )
+public class FascinatingOreLooter extends ActiveScript implements MessageListener {
+  
+	//resources
+	public final int coal = 453;
+	
+	public final int deposit = 2741;
+	public final int deposit2 = 5999;
+	
+	
+	public final int lrcBank = 45079;
+	
+	//booleans
+	boolean Attacked = false;
+	boolean switchOre = false;
+	
+	//paths & areas
+	Area lBankArea = new Area(new Tile[] { new Tile(3654, 5112, 0), new Tile(3652, 5120, 0), new Tile(3657, 5120, 0), 
+			new Tile(3657, 5112, 0) });
+	
+	Area Coal_Area = new Area(new Tile[] {
+			new Tile(3662, 5092, 0), new Tile(3666, 5094, 0), //SouthEast, NorthEast
+			new Tile(3668, 5091, 0), new Tile(3666, 5087, 0), new Tile(3661, 5088, 0) //NorthWest SouthWest
+	});
+	
+	public static final Area CoalArea2 = new Area(new Tile[] {
+			new Tile(3677, 5097, 0), new Tile(3677, 5102, 0), //SouthEast, NorthEast
+			new Tile(3672, 5102, 0), new Tile(3672, 5096, 0) });
+	
+	Tile[] pathToOre = new Tile[] { new Tile(3654, 5114, 0), new Tile(3657, 5110, 0),
+			new Tile(3657, 5104, 0), new Tile(3661, 5099, 0),
+			new Tile(3664, 5096, 0) };
+	
+	static final Tile[] PathToOre1 = {
+		new Tile(3654, 5120, 0), new Tile(3658, 5117, 0),
+		new Tile(3658, 5114, 0), new Tile(3658, 5110, 0),
+		new Tile(3657, 5106, 0), new Tile(3657, 5102, 0),
+		new Tile(3662, 5099, 0), new Tile(3664, 5094, 0),
+		new Tile(3665, 5092, 0)
+	};
+	
+	Tile[] pathToBank = new Tile[] {new Tile(3663, 5085, 0), new Tile(3661, 5102, 0),
+			new Tile(3657, 5108, 0), new Tile(3656, 5114, 0),
+			new Tile(3652, 5115, 0)};
+	
+	static final Tile[] Path2Bank = {
+		new Tile(3670, 5095, 0), new Tile(3664, 5094, 0),
+		new Tile(3661, 5098, 0), new Tile(3660, 5104, 0),
+		new Tile(3659, 5119, 0), new Tile(3656, 5113, 0),
+		new Tile(3653, 5115, 0)
+	};
+	
+	static final Tile[] PathToBank = {
+		new Tile(3663, 5085, 0), new Tile(3661, 5102, 0),
+		new Tile(3657, 5108, 0), new Tile(3656, 5114, 0),
+		new Tile(3652, 5115, 0),
+	};
+	
+	static final Tile[] PathToOre2 = {
+		new Tile(3668, 5093, 0), new Tile(3671, 5096, 0),
+		new Tile(3673, 5099, 0)};
+	
+
+private final Node[] array = new Node[] {new walkToOre(), new ifAttack(), new Loot(), new DEPOSIT(), 
+											}; //add classes here
+	
+	@Override
+    public int loop() {
+
+            for (final Node node : array) {
+                    if (node.activate()) {
+                            node.execute();
+                    }
+            }
+            return 0;
+    }
+	
+	
+	/*
+	 * Walking.newTilePath(datPath).traverse(
+         EnumSet.of(Path.TraversalOption.SPACE_ACTIONS))
+	 */
+	
+	public static boolean isAttacked(){
+		return Players.getLocal().getAnimation() == 18292 || 
+				Players.getLocal().getAnimation() == 18293;
+	}
+	
+	public class walkToOre extends Node {
+
+		@Override
+		public boolean activate() {
+			
+			return Inventory.getCount() != 28 && !Coal_Area.contains(Players.getLocal().getLocation()) || !CoalArea2.contains(Players.getLocal().getLocation())
+				&& isAttacked() == false && Players.getLocal().isMoving();
+		}
+
+		@Override
+		public void execute() {
+			
+			SceneObject DepCoal = SceneEntities.getNearest(deposit);
+			GroundItem Coal = GroundItems.getNearest(coal);
+			
+			
+			if(!Coal_Area.contains(Players.getLocal().getLocation()) && Inventory.getCount() != 28 && isAttacked() == false
+					&& Players.getLocal().isMoving()){
+					Walking.newTilePath(PathToOre1).traverse(EnumSet.of(Path.TraversalOption.SPACE_ACTIONS));
+			}
+					
+		}
+		
+	}
+	
+	public class ifAttack extends Node {
+
+		@Override
+		public boolean activate() {
+			
+			return isAttacked() == true;
+		} 
+
+		@Override
+		public void execute() {
+			if(isAttacked() == true){
+				Mouse.setSpeed(Mouse.Speed.VERY_FAST);
+				
+				if(Coal_Area.contains(Players.getLocal().getLocation())){
+					
+				Walking.newTilePath(pathToBank).traverse(EnumSet.of(Path.TraversalOption.SPACE_ACTIONS));
+				
+				
+				}
+				
+				
+			}
+			
+		}
+		
+	}
+	
+	public class Loot extends Node {
+
+		@Override
+		public boolean activate() {
+			
+			GroundItem CoalOre = GroundItems.getNearest(coal);
+			return isAttacked() == false && Inventory.getCount() != 28 && !Players.getLocal().isInCombat();
+		}
+
+		@Override
+		public void execute() {
+			
+			GroundItem CoalOre = GroundItems.getNearest(coal);
+			SceneObject Coal_Deposit = SceneEntities.getNearest(deposit);
+			
+			
+				if(Inventory.getCount() != 28 && isAttacked() == false && Players.getLocal().getAnimation() != 17970 && Coal_Area.contains(Players.getLocal().getLocation())){
+					if(CoalOre != null && CoalOre.isOnScreen() && Coal_Area.contains(CoalOre)){
+						Mouse.setSpeed(Mouse.Speed.VERY_FAST);
+						CoalOre.interact("Take");
+
+				}
+					
+					if(CoalArea2.contains(Players.getLocal().getLocation()) && CoalOre.isOnScreen() && CoalOre != null
+							&& CoalArea2.contains(CoalOre)){
+						Mouse.setSpeed(Mouse.Speed.VERY_FAST);
+						CoalOre.interact("Take");
+					}
+					
+					if(Coal_Area.contains(Players.getLocal())){
+						if(Camera.getPitch() != 23){
+							
+						}
+					}
+	
+			}
+			
+		}
+		
+	}
+
+	public class DEPOSIT extends Node {
+
+		@Override
+		public boolean activate() {
+			return Inventory.getCount() == 28;
+		}
+
+		@Override
+		public void execute() {
+			
+			SceneObject Lbank = SceneEntities.getNearest(lrcBank);
+			
+			if(Inventory.getCount() == 28 && Coal_Area.contains(Players.getLocal().getLocation())){
+				Walking.newTilePath(PathToBank).traverse(EnumSet.of(Path.TraversalOption.SPACE_ACTIONS));
+				Camera.turnTo(Lbank);
+			}
+			
+			
+			
+			if(lBankArea.contains(Players.getLocal()) && Inventory.getCount() > 20){
+				if(Lbank != null){
+					Lbank.interact("Deposit");
+					
+					
+					Mouse.hop(310, 333);
+					Mouse.click(true);
+					
+					
+					
+					Mouse.move(435, 93);
+					Mouse.click(true);
+					
+				}
+			}
+			
+		}
+		
+	}
+	
+	public class startMining extends Node {
+
+		@Override
+		public boolean activate() {
+			return Players.getLocal().getAnimation() != 17970;
+		}
+
+		@Override
+		public void execute() {
+			
+			GroundItem Coal = GroundItems.getNearest(coal);
+			SceneObject cDep = SceneEntities.getNearest(deposit);
+			SceneObject cDep2 = SceneEntities.getNearest(deposit);
+			
+			if(cDep != null && cDep.isOnScreen() && Coal_Area.contains(Players.getLocal().getLocation()) && Players.getLocal().getAnimation() == -1){
+				cDep.interact("Mine");
+			}
+			
+			if(cDep2 != null && cDep2.isOnScreen() && CoalArea2.contains(Players.getLocal().getLocation())){
+				cDep2.interact("Mine");
+			}
+
+			
+		}
+		
+	}
+	
+
+
+	@Override
+	public void messageReceived(MessageEvent e) {
+		String svrmsg = e.getMessage();
+			if(svrmsg.contains("A slab of")){
+				Task.sleep(3000, 4000);
+				switchOre = true;
+			}
+	}
+
+}
