@@ -1,0 +1,138 @@
+/*
+ * private void startAlchingActionPerformed(ActionEvent e) {
+		
+		if(highAlc.isSelected()){
+			Variables.HighAlch = true;
+		}
+		
+		if(lowAlch.isSelected()){
+			Variables.LowAlch = true;
+		}
+		
+		String alchId = idText.getText().toString();
+		Variables.idToAlch = Integer.parseInt(alchId);
+		
+		this.setVisible(true);
+		Variables.GUIFinished = true;
+		Variables.startTime = System.currentTimeMillis();
+		Variables.runTime = new Timer(0);
+		dispose();
+		
+		
+	}
+
+	private void startSHActionPerformed(ActionEvent e) {
+		
+		
+		this.setVisible(true);
+		Variables.GUIFinished = true;
+		Variables.startTime = System.currentTimeMillis();
+		Variables.runTime = new Timer(0);
+		dispose();
+	}
+
+	private void startTeleportActionPerformed(ActionEvent e) {
+		
+		if(checkTele.isSelected()){
+			Variables.Teleport = true;
+		}
+		
+		this.setVisible(true);
+		Variables.GUIFinished = true;
+		Variables.startTime = System.currentTimeMillis();
+		Variables.runTime = new Timer(0);
+		dispose();
+		
+	}
+
+	private void startEnchantActionPerformed(ActionEvent e) {
+		
+		
+		String amuletChosen = chooseAmulet.getSelectedItem().toString();
+		String neckChosen = chooseNecklace.getSelectedItem().toString();
+		String ringChosen = chooseRing.getSelectedItem().toString();
+		String braceChosen = chooseBracelet.getSelectedItem().toString();
+		
+		Amulet
+	if(checkAmulet.isSelected()){
+	
+		if(amuletChosen.equals("Sapphire")){
+			Variables.amuletToEnchant = Variables.sapAmulet;
+		} else if (amuletChosen.equals("Emerald")){
+			Variables.amuletToEnchant = Variables.emeAmulet;
+		} else if (amuletChosen.equals("Ruby")){
+			Variables.amuletToEnchant = Variables.rubAmulet;
+		} else if (amuletChosen.equals("Diamond")){
+			Variables.amuletToEnchant = Variables.diaAmulet;
+		} else if (amuletChosen.equals("Dragonstone")){
+			Variables.amuletToEnchant = Variables.draAmulet;
+		} else if (amuletChosen.equals("Onyx")){
+			Variables.amuletToEnchant = Variables.onyAmulet;
+		}
+	}		
+		Necklace
+	if(checkNeck.isSelected()){	
+		if(neckChosen.equals("Sapphire")){
+			Variables.neckToEnchant = Variables.sapNecklace;
+		} else if (neckChosen.equals("Emerald")){
+			Variables.neckToEnchant = Variables.emeNecklace;
+		} else if (neckChosen.equals("Ruby")){
+			Variables.neckToEnchant = Variables.rubNecklace;
+		} else if (ringChosen.equals("Diamond")){
+			Variables.neckToEnchant = Variables.diaRing;
+		} else if (neckChosen.equals("Dragonstone")){
+			Variables.neckToEnchant = Variables.draNecklace;
+		} else if (neckChosen.equals("Onyx")){
+			Variables.neckToEnchant = Variables.onyNecklace;
+		}
+	}	
+		Rings
+	if(checkRing.isSelected()){	
+		if(ringChosen.equals("Sapphire")){
+			Variables.ringToEnchant = Variables.sapRing;
+		} else if (ringChosen.equals("Emerald")){
+			Variables.ringToEnchant = Variables.emeRing;
+		} else if (ringChosen.equals("Ruby")){
+			Variables.ringToEnchant = Variables.rubRing;
+		} else if (ringChosen.equals("Diamond")){
+			Variables.ringToEnchant = Variables.diaRing;
+		} else if (ringChosen.equals("Dragonstone")){
+			Variables.ringToEnchant = Variables.draRing;
+		} else if (ringChosen.equals("Onyx")){
+			Variables.ringToEnchant = Variables.onyRing;
+		}
+	}	
+		Bracelets
+	if(checkBrace.isSelected()){	
+		if(braceChosen.equals("Sapphire")){
+			Variables.braceToEnchant = Variables.sapBracelet;
+		} else if (braceChosen.equals("Emerald")){
+			Variables.braceToEnchant = Variables.emeBracelet;
+		} else if (braceChosen.equals("Ruby")){
+			Variables.braceToEnchant = Variables.rubBracelet;
+		} else if (braceChosen.equals("Diamond")){
+			Variables.braceToEnchant = Variables.diaBracelet;
+		} else if (braceChosen.equals("Dragonstone")){
+			Variables.braceToEnchant = Variables.draBracelet;
+		} else if (braceChosen.equals("Onyx")){
+			Variables.braceToEnchant = Variables.onyBracelet;
+		}
+	}
+	
+		this.setVisible(true);
+		Variables.GUIFinished = true;
+		Variables.startTime = System.currentTimeMillis();
+		Variables.runTime = new Timer(0);
+		dispose();
+		
+	}
+ */
+ 
+ 
+ 
+ _______________________________
+ 
+ private static int[] enchantedJewelleryIds = {/*sapp*/ 1727, 11074, 3853, 2550, /*eme*/ 1729, 11079, 5521, 2552,
+  
+ /*ruby*/ 1725, 11088, 2558, 11194, /*dia*/ 1731, 11095, 11090, 2570, /*drag*/ 1712, 11126, 11105, 20659, /*onyx*/ 6585, 11133, 11128, 6583}
+ 
